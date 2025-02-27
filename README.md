@@ -16,6 +16,7 @@ This repository contains the code accompanying our research on optimizing renal 
    ```bash
    git clone https://github.com/lorenzkap/RL4RRT.git
    cd RL4RRT
+   ```
 
 ## Running the Pipeline
 
