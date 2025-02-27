@@ -32,11 +32,11 @@ pip install -e .
 
 **MIMIC Access.** Create a Google Cloud account that you will use to access the MIMIC-IV data through BigQuery. Get access to MIMIC-IV by going to [PhysioNet](https://physionet.org/content/mimiciv/3.1/). Then select "Request access using Google BigQuery".
 
-<img src="./assets/access_to_mimiciv.png"/>
+<!-- <img src="./assets/access_to_mimiciv.png"/> -->
 
 Setting up your client credentials if needed (see [this guide](https://cloud.google.com/bigquery/docs/authentication/end-user-installed) for using client credential to authenticate the API).
 
-<img src="./assets/manually_creating_credentials.png"/>
+<!-- <img src="./assets/manually_creating_credentials.png"/> -->
 
 You may want to save the client secret JSON file into this directory, and note the file path for later.
 
