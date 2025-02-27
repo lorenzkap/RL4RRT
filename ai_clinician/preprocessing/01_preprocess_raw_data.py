@@ -116,18 +116,18 @@ if __name__ == '__main__':
     vaso_mv = vaso_mv[~pd.isna(vaso_mv[C_ICUSTAYID])]
     vaso_mv.to_csv(os.path.join(out_dir, "vaso_mv.csv"), index=False)
     
-    # try:
-    #     vaso_cv = load_csv(os.path.join(in_dir, 'vaso_cv.csv'), null_icustayid=True)
-    #     print("Correcting nans [vaso_cv]")
-    #     vaso_cv = vaso_cv[~pd.isna(vaso_cv[C_ICUSTAYID])]
-    #     vaso_cv.to_csv(os.path.join(out_dir, "vaso_cv.csv"), index=False)
-    # except FileNotFoundError:
-    #     print("No vaso_cv file found, skipping")
+    try:
+        vaso_cv = load_csv(os.path.join(in_dir, 'vaso_cv.csv'), null_icustayid=True)
+        print("Correcting nans [vaso_cv]")
+        vaso_cv = vaso_cv[~pd.isna(vaso_cv[C_ICUSTAYID])]
+        vaso_cv.to_csv(os.path.join(out_dir, "vaso_cv.csv"), index=False)
+    except FileNotFoundError:
+        print("No vaso_cv file found, skipping")
     
-    # try:
-    #     fluid_cv = load_csv(os.path.join(in_dir, 'fluid_cv.csv'), null_icustayid=True)
-    #     print("Correcting nans [fluid_cv]")
-    #     fluid_cv = fluid_cv[~pd.isna(fluid_cv[C_ICUSTAYID])]
-    #     fluid_cv.to_csv(os.path.join(out_dir, "fluid_cv.csv"), index=False)
-    # except FileNotFoundError:
-    #     print("No fluid_cv file found, skipping")
+    try:
+        fluid_cv = load_csv(os.path.join(in_dir, 'fluid_cv.csv'), null_icustayid=True)
+        print("Correcting nans [fluid_cv]")
+        fluid_cv = fluid_cv[~pd.isna(fluid_cv[C_ICUSTAYID])]
+        fluid_cv.to_csv(os.path.join(out_dir, "fluid_cv.csv"), index=False)
+    except FileNotFoundError:
+        print("No fluid_cv file found, skipping")

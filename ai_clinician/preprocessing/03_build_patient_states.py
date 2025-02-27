@@ -59,7 +59,7 @@ def build_patient_states(chart_events, onset_data, demog, labU, MV, MV_procedure
         if d1[0][0] < 18:  # exclude younger than 18
             continue
 
-        # Limit to a time period of -4h and +4h around the window of interest for sepsis3 definition)
+        # Limit to a time period of -4h and +4h around the window of interest
         bounds = ((winb4 + 4) * 3600, (winaft + 4) * 3600)
 
         # Chart events, lab events, mech vent and extubated
@@ -90,22 +90,19 @@ def build_patient_states(chart_events, onset_data, demog, labU, MV, MV_procedure
                 C_TIMESTEP: timestep
             }
             
-            # CHARTEVENTS: positions 4-31 (inclusive) are the 28 unique values
-            # for different vitals, as stored in referenceMatrices['Refvitals']
+            # CHARTEVENTS:
             for _, event in temp[temp[C_CHARTTIME] == timestep].iterrows():
                 if event[C_ITEMID] <= 0 or event[C_ITEMID] > len(CHART_FIELD_NAMES):
                     continue
                 item[CHART_FIELD_NAMES[event[C_ITEMID] - 1]] = event[C_VALUENUM]
 
-            # LAB VALUES: positions 32-66 (inclusive) are the 35 unique values
-            # for different lab tests, as stored in referenceMatrices['Reflabs']
+            # LAB VALUES:
             for _, event in temp2[temp2[C_CHARTTIME] == timestep].iterrows():
                 if event[C_ITEMID] <= 0 or event[C_ITEMID] > len(LAB_FIELD_NAMES):
                     continue
                 item[LAB_FIELD_NAMES[event[C_ITEMID] - 1]] = event[C_VALUENUM]
 
-            # MV: positions 67 and 68 store whether the measurement is relating
-            # to being on a ventilator, and whether the patient was extubated
+            # MV:
             matching_mv = (temp3[C_CHARTTIME] == timestep)
             if matching_mv.sum() > 0:
                 if matching_mv.sum() > 1:
@@ -153,9 +150,9 @@ if __name__ == '__main__':
     parser.add_argument('--data', dest='data_dir', type=str, default=None,
                         help='Directory in which raw and preprocessed data is stored (default is ../data/ directory)')
     parser.add_argument('--window-before', dest='window_before', type=int, default=49,
-                        help="Number of hours before sepsis onset to include data (default 49)")
+                        help="Number of hours before onset to include data (default 49)")
     parser.add_argument('--window-after', dest='window_after', type=int, default=25,
-                        help="Number of hours after sepsis onset to include data (default 25)")
+                        help="Number of hours after onset to include data (default 25)")
     parser.add_argument('--head', dest='head', type=int, default=None,
                         help='Number of rows at the beginning of onset data to convert to patient states')
     parser.add_argument('--filter-stays', dest='filter_stays_path', type=str, default=None,
@@ -175,7 +172,7 @@ if __name__ == '__main__':
     chart_events = ChartEvents([load_intermediate_or_raw_csv(data_dir, path)
                                 for path in ce_paths])
     print("Reading onset data...")
-    onset_data = load_csv(os.path.join(data_dir, 'intermediates', 'sepsis_onset.csv'))
+    onset_data = load_csv(os.path.join(data_dir, 'intermediates', 'onset.csv'))
     print("Reading demog...")
     demog = load_intermediate_or_raw_csv(data_dir, 'demog.csv')
     print("Reading labs...")

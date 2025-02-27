@@ -649,18 +649,18 @@ def vaso_mv():
     return vaso_base(True)
 
 SQL_QUERY_FUNCTIONS = {
-    # "abx": abx,
-    # "ce": ce,
-    # "culture": culture,
-    # "demog": demog,
-    # "fluid_mv": fluid_mv,
-    # "labs_ce": labs_ce,
-    # "labs_le": labs_le,
-    # "mechvent_pe": mechvent_pe,
-    # "mechvent": mechvent,
-    # "microbio": microbio,
-    # "preadm_fluid": preadm_fluid,
-    # "preadm_uo": preadm_uo,
-    # "uo": uo,
+    "abx": abx,
+    "ce": ce,
+    "culture": culture,
+    "demog": demog,
+    "fluid_mv": fluid_mv,
+    "labs_ce": labs_ce,
+    "labs_le": labs_le,
+    "mechvent_pe": mechvent_pe,
+    "mechvent": mechvent,
+    "microbio": microbio,
+    "preadm_fluid": preadm_fluid,
+    "preadm_uo": preadm_uo,
+    "uo": uo,
     "vaso_mv": vaso_mv
 }

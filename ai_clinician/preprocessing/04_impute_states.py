@@ -76,12 +76,11 @@ def remove_outliers(df, provenance=None):
         C_ANION_GAP: (None, 60),
         C_AMMONIA: (0, 400),
         C_FIBRINOGEN: (0, 1000),
-        # C_ALT = 'ALT'
         C_ABSOLUTE_NEUTROPHIL_COUNT: (0, 70),
         C_PHOSPHOROUS: (0, 12),
         C_SAO2: (0, 100),
         C_TRIGLYCERIDE: (0, 3000),
-        C_SCVO2: (None, None), #Feature is still missing, add bounds
+        C_SCVO2: (None, None),
         C_LDH: (0, 10000),  
         C_CK_MB: (0, 600),
         C_BNP: (0, 70000),
@@ -91,13 +90,13 @@ def remove_outliers(df, provenance=None):
         C_POTASSIUM_URINE: (0, 104),
         C_SODIUM_URINE: (0, 250),
         C_UREA_NITROGEN_URINE: (0, 1600),
-        C_CREATININE_CLEARANCE: (0, None), #low number of entries, check again
+        C_CREATININE_CLEARANCE: (0, None),
         C_T3: (0, 250), 
-        C_GAMMA_GLUTAMYLTRANSFERASE: (0, None), #low number of entries, check again
-        C_MYOGLOBIN: (None, None), #Feature is still missing, add bounds
-        C_HEPARIN_LMW: (0, None), #low number of entries, check again
-        C_OSMOLALITY_URINE: (None, None), #low number of entries, check again
-        C_INSULIN: (None, None), #low number of entries, check again
+        C_GAMMA_GLUTAMYLTRANSFERASE: (0, None),
+        C_MYOGLOBIN: (None, None),
+        C_HEPARIN_LMW: (0, None),
+        C_OSMOLALITY_URINE: (None, None),
+        C_INSULIN: (None, None),
 
         C_CI: (None, 20),
         C_PAWMEAN: (None, 50),

@@ -109,7 +109,7 @@ def build_states_and_actions(df, qstime, inputMV, inputCV, inputpreadm, vasoMV, 
         else:
             UOtot = 0
         # adding the volume of urine produced before start of recording! this could be
-        # during the ICU stay but before the sepsis window
+        # during the ICU stay but before the time window
         UOnow = np.sum(output.loc[(output[C_CHARTTIME] >= t0) & (output[C_CHARTTIME] <= t1), C_VALUE])  # t0 and t1 defined above
         UOtot += UOnow
 
@@ -126,13 +126,10 @@ def build_states_and_actions(df, qstime, inputMV, inputCV, inputpreadm, vasoMV, 
                 C_ICUSTAYID: icustayid,       # icustay_ID
                 C_TIMESTEP: int(3600 * j + beg),  # t0 = lower limit of time window
             }
-            # Columns 4-11: demographics and outcomes
+            # demographics and outcomes
             item.update(dem)
 
-            # #####################   DISCUSS ADDING STUFF HERE / RANGE, MIN, MAX ETC   ################
-
-            # Columns 12-76: mean of chart and lab values in window
-            # Are there categorical items in here?
+            # mean of chart and lab values in window
             item.update({col: value[col].mean(skipna=True) for col in SAH_FIELD_NAMES})
             # shock index = HR/SBP and P/F (not yet computed)
 
@@ -221,9 +218,9 @@ if __name__ == '__main__':
     parser.add_argument('--resolution', dest='resolution', type=float, default=4.0,
                         help="Number of hours per binned timestep")
     parser.add_argument('--window-before', dest='window_before', type=int, default=49,
-                        help="Number of hours before sepsis onset to include data (default 49)")
+                        help="Number of hours before onset to include data (default 49)")
     parser.add_argument('--window-after', dest='window_after', type=int, default=25,
-                        help="Number of hours after sepsis onset to include data (default 25)")
+                        help="Number of hours after onset to include data (default 25)")
     parser.add_argument('--head', dest='head', type=int, default=None,
                         help='Number of ICU stays to convert')
     parser.add_argument('--mapping-file', dest='mapping_file', type=str, default=None,

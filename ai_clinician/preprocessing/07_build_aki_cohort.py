@@ -51,31 +51,6 @@ def treatment_stopped_stay_ids(df):
     
     return stopped_treatment
 
-# def treatment_stopped_stay_ids(df):
-#     a = df[[C_BLOC, C_ICUSTAYID, C_MORTA_90, C_SOFA]]
-#     grouped = a.groupby(C_ICUSTAYID)
-#     d = pd.merge(grouped.agg('max'),
-#                 grouped.size().rename(C_NUM_BLOCS),
-#                 how='left',
-#                 left_index=True,
-#                 right_index=True).drop(C_BLOC, axis=1)
-#     last_bloc = a.sort_values(C_BLOC, ascending=False).drop_duplicates(C_ICUSTAYID).rename({
-#         C_SOFA: C_LAST_SOFA
-#     }, axis=1).drop(C_MORTA_90, axis=1)
-#     d = pd.merge(d,
-#                 last_bloc,
-#                 how='left',
-#                 left_index=True,
-#                 right_on=C_ICUSTAYID).set_index(C_ICUSTAYID, drop=True)
-    
-#     stopped_treatment = d[
-#         (d[C_MORTA_90] == 1) & 
-#         (d[C_LAST_SOFA] >= d[C_SOFA] / 2) &
-#         (d[C_NUM_BLOCS] < 20)
-#     ].index
-    
-#     return stopped_treatment
-
 def check_aki_per_time_step(patient_data):
     patient_data['AKI'] = False
     # Check if there are at least two entries for calculating the baseline
@@ -268,17 +243,6 @@ if __name__ == '__main__':
         C_SIRS: C_MAX_SIRS,
     }, axis=1)
 
-    # sepsis = df.groupby('icustayid').agg({
-    #     C_MORTA_90: 'first',
-    #     C_SOFA: 'max',
-    #     C_SIRS: 'max',
-    # }).rename({
-    #     C_SOFA: C_MAX_SOFA,
-    #     C_SIRS: C_MAX_SIRS,
-    # }, axis=1)
-    # sepsis = sepsis[sepsis[C_MAX_SOFA] >= 2]
-    # print(len(sepsis), "patients with max SOFA >= 2")
-
     # print("aki_patients BEFORE:",aki_patients.head())
     aki_patients.rename(columns={'timestep':'onset_time'}, inplace=True)
 
@@ -287,23 +251,21 @@ if __name__ == '__main__':
     # print("aki_patients AFTER:",aki_patients.head())
 
     aki_patients = aki_patients.reset_index()
-    #sepsis.to_csv(os.path.join(out_dir, "sepsis_cohort.csv"))
     # aki_patients[["morta_90","max_SOFA","max_SIRS","onset_time"]].to_csv(os.path.join(out_dir, "aki_cohort.csv"))
     aki_patients[['icustayid', 'morta_90', 'max_SOFA', 'max_SIRS', 'onset_time']].to_csv(os.path.join(out_dir, "aki_cohort.csv"),  index=False)
 
-    ########## replacing sepsis_onset.csv ##########
     # Ensure icustayid is a column by resetting index if needed
     # aki_patients = aki_patients.reset_index()
 
-    # Load the sepsis_onset.csv file
-    sepsis_onset_path = os.path.join(data_dir, 'intermediates', 'sepsis_onset.csv')
-    sepsis_onset_df = load_csv(sepsis_onset_path)
+    # Load the onset.csv file
+    onset_path = os.path.join(data_dir, 'intermediates', 'onset.csv')
+    onset_df = load_csv(onset_path)
 
-    # Filter sepsis_onset_df to include only rows with icustayids present in aki_patients
-    updated_sepsis_onset_df = sepsis_onset_df[sepsis_onset_df['icustayid'].isin(aki_patients['icustayid'])]
+    # Filter onset_df to include only rows with icustayids present in aki_patients
+    updated_onset_df = onset_df[onset_df['icustayid'].isin(aki_patients['icustayid'])]
 
     # Merge to update onset_time from aki_patients
-    updated_sepsis_onset_df = updated_sepsis_onset_df.merge(
+    updated_onset_df = updated_onset_df.merge(
         aki_patients[['icustayid', 'onset_time']], 
         on='icustayid', 
         how='inner',  # Keeps only matching icustayids
@@ -311,7 +273,7 @@ if __name__ == '__main__':
     )
 
     # Drop the old onset_time column and rename the new onset_time column if necessary
-    updated_sepsis_onset_df.drop(columns=['onset_time_old'], inplace=True)
+    updated_onset_df.drop(columns=['onset_time_old'], inplace=True)
 
-    # Save the updated DataFrame, replacing the original sepsis_onset.csv
-    updated_sepsis_onset_df.to_csv(sepsis_onset_path, index=False)
+    # Save the updated DataFrame, replacing the original onset.csv
+    updated_onset_df.to_csv(onset_path, index=False)

@@ -2,8 +2,8 @@ import pandas as pd
 import os
 
 # Define the path to your dataset and output directory
-dataset_path = "/home/mahdi/RRT_mimic_iv/data/mimiciv/mimic_dataset.csv"
-output_dir = "/home/mahdi/RRT_mimic_iv/data/mimiciv_refilled"
+dataset_path = "/../../data/mimiciv/mimic_dataset.csv"
+output_dir = "/../../data/mimiciv_refilled"
 
 # Load the dataset into a pandas DataFrame
 df = pd.read_csv(dataset_path)
