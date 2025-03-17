@@ -56,8 +56,13 @@ Preprocess data, filter AKI cohort, and generate full MIMIC dataset into a direc
 python run.sh preprocess <DATA_NAME>
 ```
 
-Train models from data directory `data/<DATA_NAME>` into models directory `data/<MODELS_NAME>`:
+To set up the modelling data run through 
+- CreateModellingDataset.ipynb (Creates the dataset for modelling)
+- Clustering_Experiment.ipynb (Creates feature weights)
+
+
+Train models from data directory `data/<DATA_NAME>`.:
 
 ```
-python run.sh model <DATA_NAME> <MODELS_NAME>
+python run_modelling.py data/<DATA_NAME> || exit 1
 ```
